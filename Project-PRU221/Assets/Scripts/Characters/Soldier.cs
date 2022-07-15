@@ -10,18 +10,16 @@ public abstract class Soldier : MonoBehaviour
     bool isDead = false;
 
     float speed = 1.5f;
-    bool isBlocked;
-    float keepDistance = 3f;
+    Collider2D blocked;
+    float keepDistance = 0.75f;
 
     public int damage = 0;
-    bool inCombat;
+    Collider2D inCombat;
     protected float attackRange = 0;
     protected float timeBetweenHit = 0;
     float attackCooldown;
 
     public int cost = 0;
-
-    Collider2D target;
 
     [SerializeField]
     HealthBar healthBar;
@@ -45,76 +43,39 @@ public abstract class Soldier : MonoBehaviour
     {
         if (gameObject.layer == 6)
         {
-            isBlocked =
-                Physics2D.OverlapCircle(
-                    transform.position + transform.right * keepDistance,
-                    0.2f,
-                    6
-                )
-                || Physics2D.OverlapCircle(
-                    transform.position + transform.right * keepDistance,
-                    0.2f,
-                    7
-                );
-            inCombat = Physics2D.OverlapCapsule(
-                transform.position + transform.right * attackRange / 2,
-                new Vector2(attackRange, 1f),
-                CapsuleDirection2D.Horizontal,
+            blocked = Physics2D.OverlapCircle(
+                transform.position + transform.right * keepDistance,
+                0.2f
+            );
+            inCombat = Physics2D.OverlapBox(
+                transform.position + transform.right * (attackRange / 2),
+                new Vector2(attackRange, 0.2f),
                 0,
                 7
             );
         }
         else if (gameObject.layer == 7)
         {
-            isBlocked =
-                Physics2D.OverlapCircle(
-                    transform.position - transform.right * keepDistance,
-                    0.2f,
-                    6
-                )
-                || Physics2D.OverlapCircle(
-                    transform.position - transform.right * keepDistance,
-                    0.2f,
-                    7
-                );
-            inCombat = Physics2D.OverlapCapsule(
-                transform.position - transform.right * attackRange / 2,
-                new Vector2(attackRange, 1f),
-                CapsuleDirection2D.Horizontal,
+            blocked = Physics2D.OverlapCircle(
+                transform.position - transform.right * keepDistance,
+                0.2f
+            );
+            inCombat = Physics2D.OverlapBox(
+                transform.position - transform.right * (attackRange / 2),
+                new Vector2(attackRange, 0.2f),
                 0,
                 6
             );
         }
-        Debug.Log(isBlocked);
+        Debug.Log(inCombat);
         // Lord forgives my sins for those nested if-else!
-        if (isBlocked || isDead)
+        if (blocked != null || isDead)
         {
-            if (inCombat && !isDead)
+            if (inCombat != null && !isDead)
             {
                 if (timeBetweenHit <= attackCooldown)
                 {
-                    if (gameObject.layer == 6)
-                    {
-                        target = Physics2D.OverlapCapsule(
-                            transform.position + transform.right * attackRange / 2,
-                            new Vector2(attackRange, 1f),
-                            CapsuleDirection2D.Horizontal,
-                            0,
-                            7
-                        );
-                        target.gameObject.GetComponent<Soldier>().UpdateHealth(-damage);
-                    }
-                    else if (gameObject.layer == 7)
-                    {
-                        target = Physics2D.OverlapCapsule(
-                            transform.position - transform.right * attackRange / 2,
-                            new Vector2(attackRange, 1f),
-                            CapsuleDirection2D.Horizontal,
-                            0,
-                            6
-                        );
-                        target.gameObject.GetComponent<Soldier>().UpdateHealth(-damage);
-                    }
+                    inCombat.gameObject.GetComponent<Soldier>().UpdateHealth(-damage);
                     attackCooldown = 0;
                 }
                 else

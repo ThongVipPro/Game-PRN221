@@ -482,4 +482,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aff653611c7c38498517e1db9bbe6b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 0
+  cost: 0
   healthBar: {fileID: 7286248899444874314}

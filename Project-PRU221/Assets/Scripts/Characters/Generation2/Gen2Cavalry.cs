@@ -8,7 +8,7 @@ public class Gen2Cavalry : Gen2Soldier
     {
         maxHealth = 400;
         damage = 40;
-        attackRange = 2f;
+        attackRange = 3f;
         timeBetweenHit = 5f;
         cost = 200;
     }
