@@ -11,7 +11,7 @@ public abstract class Soldier : MonoBehaviour
 
     float speed = 1.5f;
     bool isBlocked;
-    float keepDistance = 2f;
+    float keepDistance = 3f;
 
     public int damage = 0;
     bool inCombat;
@@ -43,39 +43,49 @@ public abstract class Soldier : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameObject.layer == LayerMask.NameToLayer("P1"))
+        if (gameObject.layer == 6)
         {
-            isBlocked = Physics2D.OverlapCapsule(
-                transform.position + transform.right * keepDistance / 2,
-                new Vector2(keepDistance, 1f),
-                CapsuleDirection2D.Horizontal,
-                0
-            );
+            isBlocked =
+                Physics2D.OverlapCircle(
+                    transform.position + transform.right * keepDistance,
+                    0.2f,
+                    6
+                )
+                || Physics2D.OverlapCircle(
+                    transform.position + transform.right * keepDistance,
+                    0.2f,
+                    7
+                );
             inCombat = Physics2D.OverlapCapsule(
                 transform.position + transform.right * attackRange / 2,
                 new Vector2(attackRange, 1f),
                 CapsuleDirection2D.Horizontal,
                 0,
-                LayerMask.NameToLayer("P2")
+                7
             );
         }
-        else if (gameObject.layer == LayerMask.NameToLayer("P2"))
+        else if (gameObject.layer == 7)
         {
-            isBlocked = Physics2D.OverlapCapsule(
-                transform.position + transform.right * -keepDistance / 2,
-                new Vector2(keepDistance, 1f),
-                CapsuleDirection2D.Horizontal,
-                0
-            );
+            isBlocked =
+                Physics2D.OverlapCircle(
+                    transform.position - transform.right * keepDistance,
+                    0.2f,
+                    6
+                )
+                || Physics2D.OverlapCircle(
+                    transform.position - transform.right * keepDistance,
+                    0.2f,
+                    7
+                );
             inCombat = Physics2D.OverlapCapsule(
-                transform.position + transform.right * -attackRange / 2,
+                transform.position - transform.right * attackRange / 2,
                 new Vector2(attackRange, 1f),
                 CapsuleDirection2D.Horizontal,
                 0,
-                LayerMask.NameToLayer("P1")
+                6
             );
         }
-
+        Debug.Log(isBlocked);
         // Lord forgives my sins for those nested if-else!
         if (isBlocked || isDead)
         {
@@ -83,25 +93,25 @@ public abstract class Soldier : MonoBehaviour
             {
                 if (timeBetweenHit <= attackCooldown)
                 {
-                    if (gameObject.layer == LayerMask.NameToLayer("P1"))
+                    if (gameObject.layer == 6)
                     {
                         target = Physics2D.OverlapCapsule(
                             transform.position + transform.right * attackRange / 2,
                             new Vector2(attackRange, 1f),
                             CapsuleDirection2D.Horizontal,
                             0,
-                            LayerMask.NameToLayer("P2")
+                            7
                         );
                         target.gameObject.GetComponent<Soldier>().UpdateHealth(-damage);
                     }
-                    else if (gameObject.layer == LayerMask.NameToLayer("P2"))
+                    else if (gameObject.layer == 7)
                     {
                         target = Physics2D.OverlapCapsule(
-                            transform.position + transform.right * attackRange / 2,
+                            transform.position - transform.right * attackRange / 2,
                             new Vector2(attackRange, 1f),
                             CapsuleDirection2D.Horizontal,
                             0,
-                            LayerMask.NameToLayer("P1")
+                            6
                         );
                         target.gameObject.GetComponent<Soldier>().UpdateHealth(-damage);
                     }
@@ -115,7 +125,14 @@ public abstract class Soldier : MonoBehaviour
         }
         else
         {
-            transform.position += transform.right * speed;
+            if (gameObject.layer == 6)
+            {
+                transform.position += transform.right * speed * Time.deltaTime;
+            }
+            else if (gameObject.layer == 7)
+            {
+                transform.position -= transform.right * speed * Time.deltaTime;
+            }
         }
     }
 
