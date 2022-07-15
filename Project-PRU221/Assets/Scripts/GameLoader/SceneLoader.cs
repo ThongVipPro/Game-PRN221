@@ -7,7 +7,7 @@ public class SceneLoader : MonoBehaviour
 {
     public void LoadGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex +1);
     }
 
     public void QuitGame()
@@ -16,8 +16,8 @@ public class SceneLoader : MonoBehaviour
         Debug.Log("Quit!");
     }
 
-    public void PlayAgain()
+   /* public void PlayAgain()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
-    }
+    }*/
 }
