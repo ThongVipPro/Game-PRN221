@@ -13,7 +13,7 @@ public class MapBuilder : MonoBehaviour
 
     void Awake()
     {
-        BuildRandomMap(20, 4);
+        BuildRandomMap(20, 3);
 
         //BuildMap();
     }
@@ -34,10 +34,7 @@ public class MapBuilder : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        SpamPoint();
-    }
+    
 
     private Vector3 StateVecter3()
     {
