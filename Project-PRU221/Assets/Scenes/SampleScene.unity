@@ -5840,7 +5840,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Range: 9
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 8683457645209456576, guid: 624fcc9a86e68934f99dc0786393116e, type: 3}
   attackRadius: 9
   checkRadius: 9
   whatIsEnemy:
