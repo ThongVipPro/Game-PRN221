@@ -19,7 +19,7 @@ public class Bullet : MonoBehaviour
         timer.Duration = 15;
         timer.Run();
 
-        rb2d.AddForce(Direction * speed );
+        rb2d.AddForce(Direction * speed);
     }
 
     private void FixedUpdate()
@@ -32,14 +32,14 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == 7 && collision.gameObject.layer !=6)
+        if (collision.gameObject.layer == 7 && collision.gameObject.layer != 6)
         {
             collision.gameObject.GetComponent<Soldier>().UpdateHealth(15);
             Destroy(gameObject);
 
         }
-       
-       
+
+
     }
-   
+
 }
