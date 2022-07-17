@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: 5207274169939099245}
   - component: {fileID: 4509944419928101343}
   - component: {fileID: 8600142092191269946}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gen1Melee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -368,6 +368,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8021e0a82d0a58b459c24859d63377d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 0
+  cost: 0
   healthBar: {fileID: 2525389388076181046}
 --- !u!1 &7302545834068369628
 GameObject:

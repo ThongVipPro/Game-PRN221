@@ -8,8 +8,8 @@ public class Gen2Melee : Gen2Soldier
     {
         maxHealth = 200;
         damage = 30;
-        attackRange = 3f;
-        timeBetweenHit = 2f;
+        attackRange = 2f;
+        timeBetweenHit = 1f;
         cost = 100;
     }
 }

@@ -8,8 +8,8 @@ public class Gen2Ranger : Gen2Soldier
     {
         maxHealth = 100;
         damage = 40;
-        attackRange = 6f;
-        timeBetweenHit = 2f;
+        attackRange = 8f;
+        timeBetweenHit = 1f;
         cost = 100;
     }
 }

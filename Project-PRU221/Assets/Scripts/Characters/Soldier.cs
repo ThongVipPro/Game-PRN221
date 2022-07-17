@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class Soldier : MonoBehaviour
 {
@@ -9,14 +10,17 @@ public abstract class Soldier : MonoBehaviour
     protected int maxHealth = 0;
     bool isDead = false;
 
-    float speed = 1.5f;
+    float speed = 1f;
     Collider2D blocked;
-    float keepDistance = 0.75f;
+    float keepDistance = 0.5f;
 
     public int damage = 0;
     Collider2D inCombat;
     protected float attackRange = 0;
     protected float timeBetweenHit = 0;
+
+    SoldierDied soldierDied = new SoldierDied();
+
     float attackCooldown;
 
     public int cost = 0;
@@ -36,6 +40,7 @@ public abstract class Soldier : MonoBehaviour
     {
         health = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
+        EventManager.AddSoldierDiedInvoker(this);
     }
 
     // Update is called once per frame
@@ -43,31 +48,31 @@ public abstract class Soldier : MonoBehaviour
     {
         if (gameObject.layer == 6)
         {
-            blocked = Physics2D.OverlapCircle(
-                transform.position + transform.right * keepDistance,
-                0.2f
+            blocked = Physics2D.OverlapBox(
+                transform.position + transform.right * (keepDistance / 2 + 1),
+                new Vector2(keepDistance, 0.2f),
+                0
             );
-            inCombat = Physics2D.OverlapBox(
+            inCombat = Physics2D.OverlapCircle(
                 transform.position + transform.right * (attackRange / 2),
-                new Vector2(attackRange, 0.2f),
-                0,
-                7
+                attackRange / 2,
+                LayerMask.GetMask("P2")
             );
         }
         else if (gameObject.layer == 7)
         {
-            blocked = Physics2D.OverlapCircle(
-                transform.position - transform.right * keepDistance,
-                0.2f
+            blocked = Physics2D.OverlapBox(
+                transform.position - transform.right * (keepDistance / 2 + 1),
+                new Vector2(keepDistance, 0.2f),
+                0
             );
-            inCombat = Physics2D.OverlapBox(
+            inCombat = Physics2D.OverlapCircle(
                 transform.position - transform.right * (attackRange / 2),
-                new Vector2(attackRange, 0.2f),
-                0,
-                6
+                attackRange / 2,
+                LayerMask.GetMask("P1")
             );
         }
-        Debug.Log(inCombat);
+
         // Lord forgives my sins for those nested if-else!
         if (blocked != null || isDead)
         {
@@ -75,7 +80,15 @@ public abstract class Soldier : MonoBehaviour
             {
                 if (timeBetweenHit <= attackCooldown)
                 {
-                    inCombat.gameObject.GetComponent<Soldier>().UpdateHealth(-damage);
+                    if (inCombat.gameObject.tag == "Player")
+                    {
+                        inCombat.gameObject.GetComponent<SoldierSpawner>().UpdateHealth(damage);
+                        Debug.Log(damage);
+                    }
+                    else
+                    {
+                        inCombat.gameObject.GetComponent<Soldier>().UpdateHealth(damage);
+                    }
                     attackCooldown = 0;
                 }
                 else
@@ -111,7 +124,16 @@ public abstract class Soldier : MonoBehaviour
     IEnumerator Dead()
     {
         isDead = true;
+        if (gameObject.layer == 7)
+        {
+            soldierDied.Invoke(cost / 2);
+        }
         yield return new WaitForSeconds(0.5f);
         gameObject.SetActive(false);
+    }
+
+    public void AddSoldierDiedListener(UnityAction<int> listener)
+    {
+        soldierDied.AddListener(listener);
     }
 }
