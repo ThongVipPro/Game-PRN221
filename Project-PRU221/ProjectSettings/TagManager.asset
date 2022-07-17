@@ -6,6 +6,9 @@ TagManager:
   tags:
   - P1
   - P2
+  - DataPoint
+  - Centroid
+  - Enemy
   layers:
   - Default
   - TransparentFX

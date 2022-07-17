@@ -24,6 +24,8 @@ public class Gen2SoldierSpawner : SoldierSpawner
                     .GetChild(1)
                     .GetComponent<Image>()
                     .color = Color.yellow;
+                 
+
             }
             var cavalry = Instantiate(
                 cavalryGameObject.transform,
@@ -51,6 +53,7 @@ public class Gen2SoldierSpawner : SoldierSpawner
                     .GetChild(1)
                     .GetComponent<Image>()
                     .color = Color.yellow;
+               
             }
             var melee = Instantiate(meleeGameObject.transform, housePosition, Quaternion.identity);
         }
@@ -74,6 +77,7 @@ public class Gen2SoldierSpawner : SoldierSpawner
                     .GetChild(1)
                     .GetComponent<Image>()
                     .color = Color.yellow;
+               
             }
             var ranger = Instantiate(
                 rangerGameObject.transform,

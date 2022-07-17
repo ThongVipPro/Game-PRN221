@@ -129,7 +129,7 @@ public abstract class Soldier : MonoBehaviour
             soldierDied.Invoke(cost / 2);
         }
         yield return new WaitForSeconds(0.5f);
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
     public void AddSoldierDiedListener(UnityAction<int> listener)

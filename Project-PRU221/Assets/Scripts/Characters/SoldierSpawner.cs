@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public abstract class SoldierSpawner : MonoBehaviour
 {
@@ -46,6 +47,8 @@ public abstract class SoldierSpawner : MonoBehaviour
     IEnumerator Dead()
     {
         yield return new WaitForSeconds(0.5f);
-        gameObject.SetActive(false);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //gameObject.SetActive(false);
+
     }
 }

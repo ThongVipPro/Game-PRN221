@@ -24,6 +24,7 @@ public class Gen1SoldierSpawner : SoldierSpawner
                     .GetChild(1)
                     .GetComponent<Image>()
                     .color = Color.yellow;
+                
             }
             else if (cavalryGameObject.layer == 6)
             {
@@ -60,6 +61,7 @@ public class Gen1SoldierSpawner : SoldierSpawner
                     .GetChild(1)
                     .GetComponent<Image>()
                     .color = Color.yellow;
+               
             }
             else if (meleeGameObject.layer == 6)
             {
@@ -92,6 +94,7 @@ public class Gen1SoldierSpawner : SoldierSpawner
                     .GetChild(1)
                     .GetComponent<Image>()
                     .color = Color.yellow;
+               
             }
             else if (rangerGameObject.layer == 6)
             {
