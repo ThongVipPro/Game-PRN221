@@ -73,6 +73,7 @@ public class GameController : MonoBehaviour
         }
         else if (i == 3)
         {
+            Destroy(myHouse.GetComponent<Gen1SoldierSpawner>());
             myHouse.AddComponent<Gen2SoldierSpawner>();
             upGeneration.Invoke();
         }
